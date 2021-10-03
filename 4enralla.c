@@ -73,7 +73,7 @@ void initializeBoard(Node *p)
     {
         for (int j = 0; j < N; j++)
         {
-            p->board[i][j] = rand() % 3;
+            p->board[i][j] = 0;
         }
     }
 }
@@ -112,17 +112,48 @@ void printBoard(char b[N][N])
     }
     printLine();
 }
-void askMove(int *move)
+void askMove(unsigned int *move)
 {
     printf("what columns do you want to play?(0,1,2,3,4,5,6,7)\n");
     scanf("%d", move);
+}
+int finish()
+{
+    return 0;
+}
+unsigned int fall(Node *p, unsigned int col)
+{
+    unsigned int row = 0;
+    for (int i = 0; i < N; i++)
+    {
+        if (p->board[i][col] != 0)
+        {
+            row = i;
+            break;
+        }
+    }
+    return row;
+}
+void placeChip(Node *p, unsigned int col, unsigned int row, char player)
+{
+    p->board[row][col] = player;
 }
 int main()
 {
     Node p;
     initializeBoard(&p);
     printBoard(p.board);
-    int a;
-    askMove(&a);
+    unsigned int col;
+    unsigned int row;
+    char player = 0;
+    while (!finish())
+    {
+        askMove(&col);
+        row = fall(&p, col);
+        placeChip(&p, col, row, player);
+        printBoard(p.board);
+        player++;
+        player = player % 2;
+    }
     return 0;
 }

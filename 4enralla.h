@@ -126,8 +126,12 @@ void printBoard(char b[N][N])
 void askMove(unsigned int *move)
 {
     int aux = 0;
-    printf("what columns do you want to play?(1,2,3,4,5,6,7,8)\n");
-    scanf("%d", &aux);
+    do
+    {
+        printf("what columns do you want to play?(1,2,3,4,5,6,7,8)\n");
+        scanf("%d", &aux);
+    } while (aux > N || aux < 0);
+
     *move = aux - 1;
 }
 int finish()
@@ -151,13 +155,37 @@ void placeChip(Node *p, unsigned int col, unsigned int row, char player)
 {
     p->board[row][col] = player + 1;
 }
+char *checkColumns(Node *p)
+{
+    char *cols = (char *)malloc(N * sizeof(char)); //si no fessim malloc al acabar la funció es borraria la v.
+    for (int i = 0; i < N; i++)
+    {
+        if (p->board[0][i] == 0)
+        {
+            cols[i] = 0;
+        }
+        else
+        {
+            cols[i] = 1;
+        }
+    }
+    return cols;
+}
+
 void move(Node *p, char player)
 {
     unsigned int col;
     unsigned int row;
-    askMove(&col);
+    char *columns;
+    columns = checkColumns(p);
+    do
+    {
+        askMove(&col);
+    } while (columns[col] != 0);
+    free(columns);
     row = fall(p, col);
     placeChip(p, col, row, player);
     printBoard(p->board);
 }
+
 #endif

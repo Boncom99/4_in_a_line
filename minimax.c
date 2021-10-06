@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define N 4
-#define LEVEL 3
+#include "minimax.h"
+#include "4enralla.h"
+
 int counter = 0;
-typedef struct node
-{
-    char board[N][N];
-    struct node **child;
-    int n_child;
-    double value;
-} Node;
+
 int calculateNumChilds(Node *b)
 {
     int aux = 0;
@@ -68,7 +63,7 @@ Node *createNode(Node *father, int n_of_child, int level)
 {
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(&p, father);
-    doMove(p->board, int n_of_Child);
+    //doMove(p->board, int n_of_Child);
     if (level < 2)
     {
         p->n_child = calculateNumChilds(p);
@@ -109,7 +104,7 @@ void initializeBoard(Node *p)
             //p->board[i][j] = rand() % 2 + 1;
         }
     }
-}
+} /*
 int main()
 {
     Node *root = malloc(sizeof(Node));
@@ -119,4 +114,4 @@ int main()
     createTree(root);
     walkTreeRec(root, 0);
     return 0;
-}
+}*/

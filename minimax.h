@@ -1,4 +1,4 @@
-#define N 4
+#define N 8
 #define LEVEL 3
 #ifndef MINIMAX_H
 #define MINIMAX_H

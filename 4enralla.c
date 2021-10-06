@@ -29,7 +29,6 @@ int checkHorizontal(Node *p, int player, int row, int col, int count)
     int aux = 0;
     if (count == 4)
     {
-        printf(" WIN player %d!\n", player);
         return player;
     }
     if (!estaFora(row, col))
@@ -53,20 +52,19 @@ int checkVertical(Node *p, int player, int row, int col, int count)
     int aux = 0;
     if (count == 4)
     {
-        printf(" WIN player %d!\n", player);
         return player;
     }
     if (!estaFora(row, col))
     {
 
         int player_in_position = p->board[row][col];
-        if (player_in_position == player)
+        if (player_in_position == player && player_in_position != 0)
         {
-            aux = checkHorizontal(p, player_in_position, row + 1, col, count + 1);
+            aux = checkVertical(p, player_in_position, row + 1, col, count + 1);
         }
         else
         {
-            aux = checkHorizontal(p, player_in_position, row + 1, col, 0);
+            aux = checkVertical(p, player_in_position, row + 1, col, 0);
         }
     }
     return aux;
@@ -77,15 +75,15 @@ int win(Node *p)
     int vertical = 0;
     for (int i = 0; i < N; i++)
     {
-        horitzontal = checkHorizontal(p, p->board[N - i - 1][0], i, 0, 0);
+        horitzontal = checkHorizontal(p, p->board[N - i - 1][0], N - 1 - i, 0, 0);
         vertical = checkVertical(p, p->board[0][i], 0, i, 0);
         if (horitzontal != 0)
         {
-            return (int)horitzontal;
+            return horitzontal;
         }
         else if (vertical != 0)
         {
-            return (int)vertical;
+            return vertical;
         }
     }
     return 0;
@@ -106,9 +104,7 @@ int isFull(Node *p)
 }
 char finish(Node *p)
 {
-    printf(" \n alkfjalflasf \n");
     int aux = win(p);
-    printf("\n aaaaaaaaa   %d\n", aux);
     if (aux != 0)
     {
         printf("\n WINS THE PLAYER %d! \n\n", aux);

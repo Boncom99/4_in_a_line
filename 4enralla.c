@@ -6,12 +6,11 @@ int main()
     Node p;
     initializeBoard(&p);
     printBoard(p.board);
-    char player = 0;
-    while (!finish())
+    char player = 1;
+    while (!finish(&p))
     {
         move(&p, player);
-        player++;
-        player = player % 2;
+        player = (player % 2) + 1;
     }
     return 0;
 }

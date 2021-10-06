@@ -9,7 +9,7 @@
 
 typedef struct node
 {
-    char board[N][N]; //1 byte onlys
+    char board[N][N];
     struct node **child;
     int n_child;
     double value;
@@ -36,9 +36,32 @@ void copyBoard(Node **board1, Node *board2)
         }
     }
 }
+void showNode(Node *p, int level)
+{
+    for (int i = 0; i < level; i++)
+    {
+        printf("\t");
+    }
+    printf("-  %f\n", p->value);
+}
+void showLevel(Node *father, int level)
+{
+    for (int i = 0; i < father->n_child; i++)
+    {
+        showNode(father->child[i], level);
+    }
+}
+void walkTree(Node *root)
+{
+    showLevel(root, 1);
+    for (int i = 0; i < arrel->n_child; i++)
+    {
+        showLevel(root->child[i], 2);
+    }
+}
 Node *createNode(Node *father, int n_of_child, int level)
 {
-    Node *p = malloc(sizeof(Node));
+    Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(&p, father);
     // move(p->board, int n_of_child);
     if (level < LEVEL)
@@ -63,10 +86,10 @@ void createLevel(Node *father, int level)
 void createTree(Node *root)
 {
 
-    createLevel(root, LEVEL);
+    createLevel(root, 1);
     for (int i = 0; i < root->n_child; i++)
     {
-        createLevel(root->child[i], LEVEL);
+        createLevel(root->child[i], 2);
     }
 }
 void initializeBoard(Node *p)
@@ -76,6 +99,7 @@ void initializeBoard(Node *p)
         for (int j = 0; j < N; j++)
         {
             p->board[i][j] = 0;
+            //p->board[i][j] = rand() % 2 + 1;
         }
     }
 }
@@ -134,8 +158,101 @@ void askMove(unsigned int *move)
 
     *move = aux - 1;
 }
-int finish()
+int estaFora(int row, int col)
 {
+
+    if (row >= N || col >= N || row < 0 || col < 0)
+    {
+        return 1;
+    }
+    return 0;
+}
+int checkHorizontal(Node *p, int player, int row, int col, int count)
+{
+    int aux = 0;
+    if (count == 4)
+    {
+        printf(" WIN player %d!\n", player);
+        return player;
+    }
+    if (!estaFora(row, col))
+    {
+
+        int player_in_position = p->board[row][col];
+        if (player_in_position == player && player_in_position != 0)
+        {
+            aux = checkHorizontal(p, player_in_position, row, col + 1, count + 1);
+        }
+        else
+        {
+            aux = checkHorizontal(p, player_in_position, row, col + 1, 0);
+        }
+    }
+    return aux;
+}
+
+int checkVertical(Node *p, int player, int row, int col, int count)
+{
+    int aux = 0;
+    if (count == 4)
+    {
+        printf(" WIN player %d!\n", player);
+        return player;
+    }
+    if (!estaFora(row, col))
+    {
+
+        int player_in_position = p->board[row][col];
+        if (player_in_position == player)
+        {
+            aux = checkHorizontal(p, player_in_position, row + 1, col, count + 1);
+        }
+        else
+        {
+            aux = checkHorizontal(p, player_in_position, row + 1, col, 0);
+        }
+    }
+    return aux;
+}
+char win(Node *p)
+{
+    int aux_h = 0;
+    int aux_v = 0;
+    for (int i = 0; i < N; i++)
+    {
+        aux_h = checkHorizontal(p, p->board[N - i - 1][0], i, 0, 0);
+        aux_v = checkVertical(p, p->board[0][i], 0, i, 0);
+        if (aux_h != 0)
+        {
+            return aux_h;
+        }
+        else if (aux_v != 0)
+        {
+            return aux_h;
+        }
+    }
+    return 0;
+}
+int isFull(Node *p)
+{
+    int aux = 1;
+    for (int i = 0; i < N; i++)
+    {
+        aux *= p->board[0][i];
+    }
+    return aux;
+}
+char finish(Node *p)
+{
+    char aux = win(p);
+    if (aux != 0)
+    {
+        return aux;
+    }
+    else if (isFull(p))
+    {
+        return 3;
+    }
     return 0;
 }
 unsigned int fall(Node *p, unsigned int col)
@@ -151,9 +268,9 @@ unsigned int fall(Node *p, unsigned int col)
     }
     return row;
 }
-void placeChip(Node *p, unsigned int col, unsigned int row, char player)
+void placeChip(Node *p, unsigned int row, unsigned int col, char player)
 {
-    p->board[row][col] = player + 1;
+    p->board[row][col] = player;
 }
 char *checkColumns(Node *p)
 {
@@ -184,7 +301,7 @@ void move(Node *p, char player)
     } while (columns[col] != 0);
     free(columns);
     row = fall(p, col);
-    placeChip(p, col, row, player);
+    placeChip(p, row, col, player);
     printBoard(p->board);
 }
 

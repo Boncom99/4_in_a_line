@@ -44,4 +44,5 @@ void printBoard(char b[N][N])
         }
     }
     printLine();
+    printf("\n");
 }

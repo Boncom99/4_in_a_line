@@ -1,5 +1,5 @@
-#ifndef ENRALLA_H
-#define ENRALLA_H
+#ifndef MAIN_H
+#define MAIN_H
 #include "minimax.h"
 #include "node.h"
 int askMove();

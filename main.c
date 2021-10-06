@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "4enralla.h"
+#include "main.h"
 #include "minimax.h"
 #include "print.h"
 

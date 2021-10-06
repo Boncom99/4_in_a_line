@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "4enralla.h"
+#include "main.h"
 #include "minimax.h"
 #include "print.h"
 int player_computer = 2;
@@ -96,9 +96,12 @@ void freeTree(Node *root)
 }
 Node *createNode(Node *father, int n_of_col, int level)
 {
+    char player = 1;
+    if (level % 2)
+        player = 2;
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(&p, father);
-    placeChip(p, n_of_col, player_computer);
+    placeChip(p, n_of_col, player);
     if (level < LEVEL)
     {
         calculateNumChilds(p);
@@ -131,17 +134,16 @@ void Score(Node *p)
 {
     if (win(p, 1)) //Human
     {
-        p->value = 0;
+        p->value = MIN;
     }
-
     else if (win(p, 2)) //computer
     {
-        p->value = 100;
+        p->value = MAX;
     }
     else
     {
-        p->value = 50;
-        //p->value = rand() % 100 - 40; //TODO
+        // p->value = (double)(MIN + MAX) / 2;
+        p->value = rand() % 100 - 40; //TODO
     }
 }
 void min(Node *p)
@@ -208,8 +210,6 @@ int pcMove(Node *root)
     root->child = malloc(root->n_child * sizeof(Node *));
     createTree(root, 1);
     minMax(root, 0);
-    printNode(root);
-    walkTreeRec(root, 0);
     freeTree(root);
     return chooseColumn(root);
 }

@@ -1,1 +1,2 @@
 implementa el cas en que un dels nodes NO FULLA ja guanya la partida.
+find out why score function never returns MIN.

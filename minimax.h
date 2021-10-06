@@ -1,10 +1,10 @@
-#define N 4
-#define LEVEL 4
-#define MAX 1000.0 //score if wins
-#define MIN -500.0 //score if loses
+#define N 6
+#define LEVEL 6
+#define MAX 1000.0  //score if wins
+#define MIN -1000.0 //score if loses
 #ifndef MINIMAX_H
 #define MINIMAX_H
-#include "4enralla.h"
+#include "main.h"
 #include "node.h"
 
 void printNode(Node *p);

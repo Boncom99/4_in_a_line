@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "4enralla.h"
 #include "minimax.h"
-
-int counter = 0;
+int player_computer = 2;
+int player_human = 1;
 void initializeNode(Node *p)
 { //board
     for (int i = 0; i < N; i++)
@@ -87,7 +87,6 @@ void freeLevel(Node *father)
     }
     freeNode(father);
 }
-
 void freeTree(Node *root)
 {
     for (int i = 0; i < root->n_child; i++)
@@ -100,7 +99,7 @@ Node *createNode(Node *father, int n_of_col, int level)
 {
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(&p, father);
-    placeChip(p, n_of_col, 2); //TODO change 2
+    placeChip(p, n_of_col, player_computer);
     if (level < LEVEL)
     {
         calculateNumChilds(p);
@@ -111,8 +110,6 @@ Node *createNode(Node *father, int n_of_col, int level)
         p->n_child = 0;
         p->child = NULL;
     }
-    p->value = counter;
-    counter++;
     return p;
 }
 void createLevel(Node *father, int level)
@@ -132,6 +129,21 @@ void createTree(Node *root, int level)
     }
 }
 
+double Score(Node *p)
+{
+    if (win(p, player_computer))
+    {
+        p->value = MAX;
+    }
+    else if (win(p, player_human))
+    {
+        p->value = MIN;
+    }
+    else
+    {
+        p->value = 0;
+    }
+}
 int main()
 {
     Node *root = malloc(sizeof(Node));

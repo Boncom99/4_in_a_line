@@ -1,5 +1,7 @@
 #define N 8
 #define LEVEL 4
+#define MAX 1000  //score if wins
+#define MIN -1000 //score if loses
 #ifndef MINIMAX_H
 #define MINIMAX_H
 #include "4enralla.h"

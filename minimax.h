@@ -1,5 +1,5 @@
 #define N 8
-#define LEVEL 3
+#define LEVEL 4
 #ifndef MINIMAX_H
 #define MINIMAX_H
 #include "4enralla.h"
@@ -21,7 +21,7 @@ Node *createNode(Node *father, int n_of_child, int level);
 
 void createLevel(Node *father, int level);
 
-void createTree(Node *root);
+void createTree(Node *root, int level);
 
 void initializeNode(Node *p);
 

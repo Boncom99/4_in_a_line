@@ -225,17 +225,17 @@ void move(Node *p, char player)
     } while (!ColumnIsFree(p, col));
     placeChip(p, col, player);
     printBoard(p->board);
-}
+} /*
 int main()
 {
-    Node p;
-    initializeBoard(&p);
-    printBoard(p.board);
+    Node root;
+    initializeNode(&root);
+    printBoard(root.board);
     char player = 2;
     do
     {
         player = (player % 2) + 1;
-        move(&p, player);
-    } while (!finish(&p, player));
+        move(&root, player);
+    } while (!finish(&root, player));
     return 0;
-}
+}*/

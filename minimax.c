@@ -1,21 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "minimax.h"
 #include "4enralla.h"
+#include "minimax.h"
 
 int counter = 0;
 
-int calculateNumChilds(Node *b)
+void calculateNumChilds(Node *b)
 {
+
     int aux = 0;
     for (int i = 0; i < N; i++)
     {
         if (b->board[0][i] == 0)
         {
+            b->available_cols[aux] = i;
             aux++;
         }
     }
-    return aux;
+    for (int i = aux + 1; i < N; i++) //fill the rest of the vector with (-1)
+    {
+        b->available_cols[i] = -1;
+    }
+    b->n_child = aux;
 }
 void copyBoard(Node **board1, Node *board2)
 {
@@ -59,14 +65,14 @@ void walkTree(Node *root)
         showLevel(root->child[i], 2);
     }
 }
-Node *createNode(Node *father, int n_of_child, int level)
+Node *createNode(Node *father, int n_of_col, int level)
 {
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(&p, father);
-    //doMove(p->board, int n_of_Child);
+    placeChip(p, n_of_col, 2); //TODO change 2
     if (level < 2)
     {
-        p->n_child = calculateNumChilds(p);
+        calculateNumChilds(p);
         p->child = malloc(p->n_child * sizeof(Node *));
     }
     else
@@ -82,7 +88,7 @@ void createLevel(Node *father, int level)
 {
     for (int i = 0; i < father->n_child; i++)
     {
-        father->child[i] = createNode(father, i, level);
+        father->child[i] = createNode(father, father->available_cols[i], level);
     }
 }
 void createTree(Node *root)
@@ -94,24 +100,26 @@ void createTree(Node *root)
         createLevel(root->child[i], 2);
     }
 }
-void initializeBoard(Node *p)
-{
+void initializeNode(Node *p)
+{ //board
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
             p->board[i][j] = 0;
-            //p->board[i][j] = rand() % 2 + 1;
         }
+        p->available_cols[i] = 1;
     }
-} /*
+}
 int main()
 {
     Node *root = malloc(sizeof(Node));
     root->n_child = N;
+    initializeNode(root);
     root->value = 100;
     root->child = malloc(root->n_child * sizeof(Node *));
     createTree(root);
     walkTreeRec(root, 0);
+    free(root->child);
     return 0;
-}*/
+}

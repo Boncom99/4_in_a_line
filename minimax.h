@@ -5,7 +5,7 @@
 #include "4enralla.h"
 #include "node.h"
 
-int calculateNumChilds(Node *b);
+void calculateNumChilds(Node *b);
 
 void copyBoard(Node **board1, Node *board2);
 
@@ -23,6 +23,6 @@ void createLevel(Node *father, int level);
 
 void createTree(Node *root);
 
-void initializeBoard(Node *p);
+void initializeNode(Node *p);
 
 #endif

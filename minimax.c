@@ -2,8 +2,14 @@
 #include <stdlib.h>
 #include "4enralla.h"
 #include "minimax.h"
+#include "print.h"
 int player_computer = 2;
 int player_human = 1;
+void printNode(Node *p)
+{
+    printf("n_child= %d\n", p->n_child);
+    printf("value= %g\n", p->value);
+}
 void initializeNode(Node *p)
 { //board
     for (int i = 0; i < N; i++)
@@ -78,7 +84,7 @@ void walkTree(Node *root)
 void freeLevel(Node *father)
 {
     free(father->child);
-    free(father);
+    //free(father);
 }
 void freeTree(Node *root)
 {
@@ -123,17 +129,19 @@ void createTree(Node *root, int level)
 }
 void Score(Node *p)
 {
-    if (win(p, player_computer))
+    if (win(p, 1)) //Human
     {
-        p->value = MAX;
+        p->value = 0;
     }
-    else if (win(p, player_human))
+
+    else if (win(p, 2)) //computer
     {
-        p->value = MIN;
+        p->value = 100;
     }
     else
     {
-        p->value = rand() % 100 - 40;
+        p->value = 50;
+        //p->value = rand() % 100 - 40; //TODO
     }
 }
 void min(Node *p)
@@ -172,10 +180,10 @@ void minMax(Node *p, int level)
         {
             minMax(p->child[i], level + 1);
         }
-        if (level % 2)
-            max(p);
-        else
+        if (level % 2) //huma
             min(p);
+        else
+            max(p);
     }
     else
     {
@@ -191,20 +199,19 @@ int chooseColumn(Node *p)
             return p->available_cols[i];
         }
     }
-    return N + 1;
+    return 0;
 }
-int pcMove(Node *old)
+int pcMove(Node *root)
 {
-    Node *root = malloc(sizeof(Node));
-    copyBoard(&root, old);
     calculateNumChilds(root);
     //initializeNode(root);
     root->child = malloc(root->n_child * sizeof(Node *));
     createTree(root, 1);
     minMax(root, 0);
+    printNode(root);
+    walkTreeRec(root, 0);
+    freeTree(root);
     return chooseColumn(root);
-    //freeTree(root);
-    //walkTreeRec(root, 0);
 }
 /*int main()
 {

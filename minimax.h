@@ -1,12 +1,13 @@
-#define N 6
+#define N 4
 #define LEVEL 4
-#define MAX 1000  //score if wins
-#define MIN -1000 //score if loses
+#define MAX 1000.0 //score if wins
+#define MIN -500.0 //score if loses
 #ifndef MINIMAX_H
 #define MINIMAX_H
 #include "4enralla.h"
 #include "node.h"
 
+void printNode(Node *p);
 void initializeNode(Node *p);
 void calculateNumChilds(Node *b);
 void copyBoard(Node **board1, Node *board2);

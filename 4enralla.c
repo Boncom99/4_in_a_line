@@ -17,6 +17,7 @@ int askMove()
         printf("\n");
 
         scanf("%d", &aux);
+        printf("\n");
     } while (aux > N || aux < 0);
 
     return aux - 1;
@@ -201,10 +202,10 @@ unsigned int fall(Node *p, unsigned int col)
     }
     return row;
 }
-void placeChip(Node *p, unsigned int col, char player)
+void placeChip(Node *p, unsigned int col, int player)
 {
     int row = fall(p, col);
-    p->board[row][col] = player;
+    p->board[row][col] = (char)player;
 }
 int ColumnIsFree(Node *p, int col)
 {
@@ -224,7 +225,7 @@ int humanMove(Node *p)
     } while (!ColumnIsFree(p, col));
     return col;
 };
-void move(Node *p, char player)
+void move(Node *p, int player)
 {
     unsigned int col;
     if (player % 2) //HUMA;
@@ -243,7 +244,7 @@ int main()
     Node MAIN;
     initializeNode(&MAIN);
     printBoard(MAIN.board);
-    char player = 2;
+    int player = 2;
     do
     {
         player = (player % 2) + 1;

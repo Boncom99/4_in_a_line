@@ -12,9 +12,9 @@ int win(Node *p, int player);
 int isFull(Node *p);
 char finish(Node *p, int player);
 unsigned int fall(Node *p, unsigned int col);
-void placeChip(Node *p, unsigned int col, char player);
+void placeChip(Node *p, unsigned int col, int player);
 int ColumnIsFree(Node *p, int col);
-void move(Node *p, char player);
+void move(Node *p, int player);
 int humanMove(Node *p);
 
 #endif

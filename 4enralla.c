@@ -214,8 +214,7 @@ int ColumnIsFree(Node *p, int col)
     }
     return 0;
 }
-
-void move(Node *p, char player)
+int humanMove(Node *p)
 {
     unsigned int col;
     do
@@ -223,19 +222,32 @@ void move(Node *p, char player)
         col = askMove();
 
     } while (!ColumnIsFree(p, col));
+    return col;
+};
+void move(Node *p, char player)
+{
+    unsigned int col;
+    if (player % 2) //HUMA;
+    {
+        col = humanMove(p);
+    }
+    else
+    {
+        col = pcMove(p);
+    }
     placeChip(p, col, player);
     printBoard(p->board);
-} /*
+}
 int main()
 {
-    Node root;
-    initializeNode(&root);
-    printBoard(root.board);
+    Node MAIN;
+    initializeNode(&MAIN);
+    printBoard(MAIN.board);
     char player = 2;
     do
     {
         player = (player % 2) + 1;
-        move(&root, player);
-    } while (!finish(&root, player));
+        move(&MAIN, player);
+    } while (!finish(&MAIN, player));
     return 0;
-}*/
+}

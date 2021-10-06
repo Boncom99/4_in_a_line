@@ -15,5 +15,6 @@ unsigned int fall(Node *p, unsigned int col);
 void placeChip(Node *p, unsigned int col, char player);
 int ColumnIsFree(Node *p, int col);
 void move(Node *p, char player);
+int humanMove(Node *p);
 
 #endif

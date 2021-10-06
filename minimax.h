@@ -1,4 +1,4 @@
-#define N 8
+#define N 6
 #define LEVEL 4
 #define MAX 1000  //score if wins
 #define MIN -1000 //score if loses
@@ -7,24 +7,24 @@
 #include "4enralla.h"
 #include "node.h"
 
-void calculateNumChilds(Node *b);
-
-void copyBoard(Node **board1, Node *board2);
-
-void showNode(Node *p, int level);
-
-void showLevel(Node *father, int level);
-
-void walkTreeRec(Node *root, int level);
-
-void walkTree(Node *root);
-
-Node *createNode(Node *father, int n_of_child, int level);
-
-void createLevel(Node *father, int level);
-
-void createTree(Node *root, int level);
-
 void initializeNode(Node *p);
+void calculateNumChilds(Node *b);
+void copyBoard(Node **board1, Node *board2);
+void showNode(Node *p, int level);
+void showLevel(Node *father, int level);
+void walkTreeRec(Node *root, int level);
+void walkTree(Node *root);
+void freeNode(Node *p);
+void freeLevel(Node *father);
+void freeTree(Node *root);
+Node *createNode(Node *father, int n_of_child, int level);
+void createLevel(Node *father, int level);
+void createTree(Node *root, int level);
+void Score(Node *p);
+void min(Node *p);
+void max(Node *p);
+void minMax(Node *p, int level);
+int chooseColumn(Node *p);
+int pcMove(Node *old);
 
 #endif

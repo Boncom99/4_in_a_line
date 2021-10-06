@@ -180,7 +180,10 @@ char finish(Node *p, int player)
 {
     if (win(p, player))
     {
-        printf("\n WINS THE PLAYER %d! \n\n", player);
+        if (player == 2)
+            printf("\n 🥳🎉🦾🦾THE COMPUTER HAS WON! 🥳🎉\n\n");
+        else
+            printf("\n 🥳🎉💪YOU HAVE WON ! 🥳🎉\n\n");
         return 1;
     }
     else if (isFull(p))

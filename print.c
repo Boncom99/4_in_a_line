@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "minimax.h"
+void askForName(char *a)
+{
+    printf("Players 1 name: ");
+    scanf("%s", a);
+    printf("\n");
+}
 void printLine()
 {
     printf("\n   ");

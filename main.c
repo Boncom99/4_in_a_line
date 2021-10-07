@@ -3,13 +3,13 @@
 #include "main.h"
 #include "minimax.h"
 #include "print.h"
-
+char name[20];
 int askMove()
 {
     int aux = 0;
     do
     {
-        printf("what columns do you want to play?\n");
+        printf(" turn to move %s ! what columns do you want to play?\n", name);
         for (int i = 1; i <= N; i++)
         {
             printf(" %d ", i);
@@ -183,7 +183,7 @@ char finish(Node *p, int player)
         if (player == 2)
             printf("\n 🥳🎉🦾🦾THE COMPUTER HAS WON! 🥳🎉\n\n");
         else
-            printf("\n 🥳🎉💪YOU HAVE WON ! 🥳🎉\n\n");
+            printf("\n 🥳🎉💪CONGRATULATIONS %s! YOU HAVE WON ! 🥳🎉\n\n", name);
         return 1;
     }
     else if (isFull(p))
@@ -244,6 +244,9 @@ void move(Node *p, int player)
 }
 int main()
 {
+
+    askForName(name);
+
     Node MAIN;
     initializeNode(&MAIN);
     printBoard(MAIN.board);

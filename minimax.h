@@ -10,7 +10,7 @@
 void printNode(Node *p);
 void initializeNode(Node *p);
 void calculateNumChilds(Node *b);
-void copyBoard(Node **board1, Node *board2);
+void copyBoard(Node *board1, Node *board2);
 void showNode(Node *p, int level);
 void showLevel(Node *father, int level);
 void walkTreeRec(Node *root, int level);

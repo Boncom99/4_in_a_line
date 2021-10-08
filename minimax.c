@@ -39,13 +39,13 @@ void calculateNumChilds(Node *b)
     }
     b->n_child = aux;
 }
-void copyBoard(Node **board1, Node *board2)
+void copyBoard(Node *board1, Node *board2)
 {
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            (*board1)->board[i][j] = board2->board[i][j];
+            (board1)->board[i][j] = board2->board[i][j];
         }
     }
 }
@@ -100,7 +100,7 @@ Node *createNode(Node *father, int n_of_col, int level)
     if (level % 2)
         player = 2;
     Node *p = (Node *)malloc(sizeof(Node));
-    copyBoard(&p, father);
+    copyBoard(p, father);
     placeChip(p, n_of_col, player);
     score(p); //Si una jugada guanya o perd ja no fem més fills d'aquella branca
     if (level < LEVEL && (p->value != MAX || p->value != MIN))

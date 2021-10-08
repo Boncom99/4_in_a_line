@@ -73,14 +73,7 @@ void walkTreeRec(Node *root, int level)
         walkTreeRec(root->child[i], level + 1);
     }
 }
-void walkTree(Node *root)
-{
-    showLevel(root, 1);
-    for (int i = 0; i < root->n_child; i++)
-    {
-        showLevel(root->child[i], 2);
-    }
-}
+
 void freeLevel(Node *father)
 {
     free(father->child);

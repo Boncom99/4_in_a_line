@@ -14,7 +14,6 @@ void copyBoard(Node *board1, Node *board2);
 void showNode(Node *p, int level);
 void showLevel(Node *father, int level);
 void walkTreeRec(Node *root, int level);
-void walkTree(Node *root);
 void freeNode(Node *p);
 void freeLevel(Node *father);
 void freeTree(Node *root);

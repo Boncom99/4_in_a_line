@@ -12,17 +12,17 @@ void printLine()
     printf("\n   ");
     for (int k = 0; k < N; k++)
     {
-        printf("___  ");
+        printf("____  ");
     }
     printf("\n  ");
 }
 void printNumbers()
 {
-    printf("  ");
+    printf("   ");
 
     for (int k = 0; k < N; k++)
     {
-        printf("  %d  ", k + 1);
+        printf("  %d   ", k + 1);
     }
 }
 void printBoard(char b[N][N])
@@ -37,15 +37,15 @@ void printBoard(char b[N][N])
             // printf("|%d %d|", i, j);
             if (b[i][j] == 1)
             {
-                printf("| ✘ |");
+                printf("| 🟡 |");
             }
             else if (b[i][j] == 2)
             {
-                printf("| ○ |");
+                printf("| 🟦 |");
             }
             else
             {
-                printf("|   |");
+                printf("|    |");
             }
         }
     }

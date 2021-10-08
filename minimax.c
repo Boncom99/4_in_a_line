@@ -102,7 +102,9 @@ Node *createNode(Node *father, int n_of_col, int level)
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(&p, father);
     placeChip(p, n_of_col, player);
-    if (level < LEVEL)
+    score(p); //Si una jugada guanya o perd ja no fem més fills d'aquella branca
+    if (level < LEVEL && (p->value != MAX || p->value != MIN))
+    //if (level < LEVEL)
     {
         calculateNumChilds(p);
         p->child = malloc(p->n_child * sizeof(Node *));
@@ -130,7 +132,7 @@ void createTree(Node *root, int level)
         createTree(root->child[i], level + 1);
     }
 }
-void Score(Node *p)
+void score(Node *p)
 {
     if (win(p, 1)) //Human
     {
@@ -142,8 +144,7 @@ void Score(Node *p)
     }
     else
     {
-        // p->value = (double)(MIN + MAX) / 2;
-        p->value = rand() % 100 - 40; //TODO
+        p->value = rand() % 100 - 50;
     }
 }
 void min(Node *p)
@@ -176,20 +177,16 @@ void max(Node *p)
 }
 void minMax(Node *p, int level)
 {
-    if (p->n_child != 0)
+    for (int i = 0; i < p->n_child; i++)
     {
-        for (int i = 0; i < p->n_child; i++)
-        {
-            minMax(p->child[i], level + 1);
-        }
+        minMax(p->child[i], level + 1);
+    }
+    if (p->n_child != 0) //per evitar que els nodes fulla apliquin el minmax
+    {
         if (level % 2) //huma
             min(p);
         else
             max(p);
-    }
-    else
-    {
-        Score(p);
     }
 }
 int chooseColumn(Node *p)
@@ -206,24 +203,9 @@ int chooseColumn(Node *p)
 int pcMove(Node *root)
 {
     calculateNumChilds(root);
-    //initializeNode(root);
     root->child = malloc(root->n_child * sizeof(Node *));
     createTree(root, 1);
     minMax(root, 0);
     freeTree(root);
     return chooseColumn(root);
 }
-/*int main()
-{
-    Node *root = malloc(sizeof(Node));
-    root->n_child = N;
-    initializeNode(root);
-    root->value = 100;
-    root->child = malloc(root->n_child * sizeof(Node *));
-    createTree(root, 1);
-    minMax(root, 0);
-    int col = finalMove(root);
-    //freeTree(root);
-    walkTreeRec(root, 0);
-    return 0;
-}*/

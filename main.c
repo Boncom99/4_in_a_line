@@ -9,7 +9,7 @@ int askMove()
     int aux = 0;
     do
     {
-        printf(" turn to move %s ! what columns do you want to play?\n", name);
+        printf(" turn to move 🟡 %s 🟡! what columns do you want to play?\n", name);
         for (int i = 1; i <= N; i++)
         {
             printf(" %d ", i);

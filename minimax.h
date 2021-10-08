@@ -1,5 +1,5 @@
 #define N 6
-#define LEVEL 6
+#define LEVEL 5
 #define MAX 1000.0  //score if wins
 #define MIN -1000.0 //score if loses
 #ifndef MINIMAX_H
@@ -21,7 +21,7 @@ void freeTree(Node *root);
 Node *createNode(Node *father, int n_of_child, int level);
 void createLevel(Node *father, int level);
 void createTree(Node *root, int level);
-void Score(Node *p);
+void score(Node *p);
 void min(Node *p);
 void max(Node *p);
 void minMax(Node *p, int level);

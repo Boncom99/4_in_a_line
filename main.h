@@ -2,6 +2,8 @@
 #define MAIN_H
 #include "minimax.h"
 #include "node.h"
+char name[20];
+
 int askMove();
 int isOutside(int row, int col);
 int checkHorizontal(Node *p, int player, int row, int col, int count);

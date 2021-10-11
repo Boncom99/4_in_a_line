@@ -1,6 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "minimax.h"
+#include "main.h"
+void newGame(int Points[2])
+{
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    printf("%s  %d  -  %d  COMPUTER\n\n", name, Points[0], Points[1]);
+
+    printf("Good luck %s! \n\n", name);
+}
+int playAgain()
+{
+    char aux = '\0';
+    printf("\n %s do you want to play again? (y/n) \n", name);
+    do
+    {
+        scanf("%c", &aux);
+        if (aux == 'y')
+        {
+            return 1;
+        }
+        else if (aux == 'n')
+        {
+            return 0;
+        }
+        //printf("I didn't understand what you said! %s do you want to play again? (y/n)", name);
+    } while (1);
+}
 void askForName(char *a)
 {
     printf("Players 1 name: ");

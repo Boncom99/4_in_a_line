@@ -3,7 +3,7 @@
 #include "main.h"
 #include "minimax.h"
 #include "print.h"
-char name[20];
+
 int askMove()
 {
     int aux = 0;
@@ -246,15 +246,22 @@ int main()
 {
 
     askForName(name);
-
     Node MAIN;
-    initializeNode(&MAIN);
-    printBoard(MAIN.board);
-    int player = 2;
+    int Points[2] = {0, 0};
+
     do
     {
-        player = (player % 2) + 1;
-        move(&MAIN, player);
-    } while (!finish(&MAIN, player));
+        newGame(Points);
+        initializeNode(&MAIN);
+        printBoard(MAIN.board);
+        int player = 2;
+        do
+        {
+            player = (player % 2) + 1;
+            move(&MAIN, player);
+        } while (!finish(&MAIN, player));
+        Points[player - 1]++;
+
+    } while (playAgain());
     return 0;
 }

@@ -1,5 +1,5 @@
-#define N 6
-#define LEVEL 5
+#define N 8
+#define LEVEL 7
 #define MAX 1000.0  //score if wins
 #define MIN -1000.0 //score if loses
 #ifndef MINIMAX_H

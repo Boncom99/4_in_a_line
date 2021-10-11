@@ -31,133 +31,158 @@ int isOutside(int row, int col)
     }
     return 0;
 }
-int checkHorizontal(Node *p, int player, int row, int col, int count)
+int checkHorizontal(Node *p, int player, int row, int col, int last_col, int count)
 {
     int aux = 0;
     if (count == 4)
     {
         return 1;
     }
-    if (!isOutside(row, col))
+    if (col <= last_col)
     {
 
         int chip = p->board[row][col];
         if (chip == player && chip != 0)
         {
-            aux = checkHorizontal(p, player, row, col + 1, count + 1);
+            aux = checkHorizontal(p, player, row, col + 1, last_col, count + 1);
         }
         else
         {
-            aux = checkHorizontal(p, player, row, col + 1, 0);
+            aux = checkHorizontal(p, player, row, col + 1, last_col, 0);
         }
     }
     return aux;
 }
-int checkDescendentDiagonal(Node *p, int player, int row, int col, int count)
+int checkVertical(Node *p, int player, int row, int col, int last_row, int count)
 {
     int aux = 0;
     if (count == 4)
     {
         return 1;
     }
-    if (!isOutside(row, col))
+    if (row <= last_row)
     {
-
         int chip = p->board[row][col];
         if (chip == player && chip != 0)
         {
-            aux = checkDescendentDiagonal(p, player, row + 1, col + 1, count + 1);
+            aux = checkVertical(p, player, row + 1, col, last_row, count + 1);
         }
         else
         {
-            aux = checkDescendentDiagonal(p, player, row + 1, col + 1, 0);
+            aux = checkVertical(p, player, row + 1, col, last_row, 0);
         }
     }
     return aux;
 }
-int checkAscendentDiagonal(Node *p, int player, int row, int col, int count)
+int checkDescendentDiagonal(Node *p, int player, int row, int col, int last_row, int count)
 {
     int aux = 0;
     if (count == 4)
     {
         return 1;
     }
-    if (!isOutside(row, col))
+    if (!isOutside(row, col) && row <= last_row)
     {
 
         int chip = p->board[row][col];
         if (chip == player && chip != 0)
         {
-            aux = checkAscendentDiagonal(p, player, row + 1, col - 1, count + 1);
+            aux = checkDescendentDiagonal(p, player, row + 1, col + 1, last_row, count + 1);
         }
         else
         {
-            aux = checkAscendentDiagonal(p, player, row + 1, col - 1, 0);
+            aux = checkDescendentDiagonal(p, player, row + 1, col + 1, last_row, 0);
         }
     }
     return aux;
 }
-int checkVertical(Node *p, int player, int row, int col, int count)
+int checkAscendentDiagonal(Node *p, int player, int row, int col, int last_row, int count)
 {
     int aux = 0;
     if (count == 4)
     {
         return 1;
     }
-    if (!isOutside(row, col))
+    if (!isOutside(row, col) && row <= last_row)
     {
+
         int chip = p->board[row][col];
         if (chip == player && chip != 0)
         {
-            aux = checkVertical(p, player, row + 1, col, count + 1);
+            aux = checkAscendentDiagonal(p, player, row - 1, col + 1, last_row, count + 1);
         }
         else
         {
-            aux = checkVertical(p, player, row + 1, col, 0);
+            aux = checkAscendentDiagonal(p, player, row - 1, col + 1, last_row, 0);
         }
     }
     return aux;
 }
-int win(Node *p, int player)
+
+int start_row(int row, int col)
 {
-    //vertical and Horitzontal
-    for (int i = 0; i < N; i++)
+    while (isOutside(row - 3, col))
     {
 
-        if (checkHorizontal(p, player, N - 1 - i, 0, 0))
-        {
-            return 1;
-        }
-        else if (checkVertical(p, player, 0, i, 0))
-        {
-            return 1;
-        }
+        row++;
+    }
+    return row - 3;
+}
+int end_row(int row, int col)
+{
+    while (isOutside(row + 3, col))
+    {
+
+        row--;
+    }
+    return row + 3;
+}
+int start_col(int row, int col)
+{
+    while (isOutside(row, col - 3))
+    {
+
+        col++;
+    }
+    return col - 3;
+}
+int end_col(int row, int col)
+{
+    while (isOutside(row, col + 3))
+    {
+
+        col--;
+    }
+    return col + 3;
+}
+int win(Node *p, int player, int row, int col)
+{
+    int row0 = start_row(row, col);
+    int row1 = end_row(row, col);
+    int col0 = start_col(row, col);
+    int col1 = end_col(row, col);
+
+    //Horizontal
+    if (checkHorizontal(p, player, row, col0, col1, 0))
+    {
+        return 1;
+    }
+    //vertical
+
+    if (checkVertical(p, player, row0, col, row1, 0))
+    {
+        return 1;
     }
     //diagonals
-    {
 
-        for (int i = N - 4; i >= 0; i--) //diagonals starting from the side
-        {
-            if (checkAscendentDiagonal(p, player, i, N - 1, 0))
-            {
-                return 1;
-            }
-            else if (checkDescendentDiagonal(p, player, i, 0, 0))
-            {
-                return 1;
-            }
-        }
-        for (int i = 1; i < N - 3; i++) //diagonals starting from the top (starting from 1 bc the main diagonal is already checked)
-        {
-            if (checkAscendentDiagonal(p, player, 0, N - 1 - i, 0))
-            {
-                return 1;
-            }
-            else if (checkDescendentDiagonal(p, player, 0, i, 0))
-            {
-                return 1;
-            }
-        }
+    if (checkAscendentDiagonal(p, player, row1, col0, row1, 0))
+    {
+        return 1;
+    }
+
+    if (checkDescendentDiagonal(p, player, row0, col0, row1, 0))
+    {
+        return 1;
     }
 
     return 0;
@@ -176,9 +201,9 @@ int isFull(Node *p)
     }
     return 0;
 }
-char finish(Node *p, int player)
+char finish(Node *p, int player, int row, int col)
 {
-    if (win(p, player))
+    if (win(p, player, row, col))
     {
         if (player == 2)
             printf("\n 🥳🎉🦾🦾THE COMPUTER HAS WON! 🥳🎉\n\n");
@@ -205,9 +230,8 @@ unsigned int fall(Node *p, unsigned int col)
     }
     return row;
 }
-void placeChip(Node *p, unsigned int col, int player)
+void placeChip(Node *p, unsigned int row, unsigned int col, int player)
 {
-    int row = fall(p, col);
     p->board[row][col] = (char)player;
 }
 int ColumnIsFree(Node *p, int col)
@@ -228,7 +252,7 @@ int humanMove(Node *p)
     } while (!ColumnIsFree(p, col));
     return col;
 };
-void move(Node *p, int player)
+int *move(Node *p, int player)
 {
     unsigned int col;
     if (player % 2) //HUMA;
@@ -239,8 +263,14 @@ void move(Node *p, int player)
     {
         col = pcMove(p);
     }
-    placeChip(p, col, player);
+    int row = fall(p, col);
+    placeChip(p, row, col, player);
     printBoard(p->board);
+    static int v[2];
+    v[0] = row;
+    v[1] = col;
+
+    return v;
 }
 int main()
 {
@@ -248,7 +278,7 @@ int main()
     askForName(name);
     Node MAIN;
     int Points[2] = {0, 0};
-
+    int *movement;
     do
     {
         newGame(Points);
@@ -258,8 +288,8 @@ int main()
         do
         {
             player = (player % 2) + 1;
-            move(&MAIN, player);
-        } while (!finish(&MAIN, player));
+            movement = move(&MAIN, player);
+        } while (!finish(&MAIN, player, movement[0], movement[1]));
         Points[player - 1]++;
 
     } while (playAgain());

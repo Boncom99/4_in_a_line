@@ -5,13 +5,9 @@
 #include "print.h"
 int player_computer = 2;
 int player_human = 1;
-void printNode(Node *p)
-{
-    printf("n_child= %d\n", p->n_child);
-    printf("value= %g\n", p->value);
-}
+
 void initializeNode(Node *p)
-{ //board
+{
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -57,17 +53,10 @@ void showNode(Node *p, int level)
     }
     printf("-  %.6g\n", p->value);
 }
-void showLevel(Node *father, int level)
-{
-    for (int i = 0; i < father->n_child; i++)
-    {
-        showNode(father->child[i], level);
-    }
-}
+
 void walkTreeRec(Node *root, int level)
 {
     showNode(root, level);
-
     for (int i = 0; i < root->n_child; i++)
     {
         walkTreeRec(root->child[i], level + 1);
@@ -77,7 +66,6 @@ void walkTreeRec(Node *root, int level)
 void freeLevel(Node *father)
 {
     free(father->child);
-    //free(father);
 }
 void freeTree(Node *root)
 {
@@ -87,17 +75,19 @@ void freeTree(Node *root)
     }
     freeLevel(root);
 }
-Node *createNode(Node *father, int n_of_col, int level)
+Node *createNode(Node *father, int col, int level)
 {
     char player = 1;
     if (level % 2)
         player = 2;
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(p, father);
-    placeChip(p, n_of_col, player);
-    score(p); //Si una jugada guanya o perd ja no fem més fills d'aquella branca
-    if (level < LEVEL && (p->value != MAX || p->value != MIN))
-    //if (level < LEVEL)
+    int row = fall(p, col);
+    placeChip(p, row, col, player);
+    score(p, row, col, player);
+    //Si una jugada guanya o perd ja no fem més fills d'aquella branca
+    //Si un tablero esta ple ja no fem mes fills
+    if (level < LEVEL && p->value != MAX && p->value != MIN && !isFull(p))
     {
         calculateNumChilds(p);
         p->child = malloc(p->n_child * sizeof(Node *));
@@ -125,15 +115,18 @@ void createTree(Node *root, int level)
         createTree(root->child[i], level + 1);
     }
 }
-void score(Node *p)
+void score(Node *p, int row, int col, int player)
 {
-    if (win(p, 1)) //Human
+    if (win(p, player, row, col))
     {
-        p->value = MIN;
-    }
-    else if (win(p, 2)) //computer
-    {
-        p->value = MAX;
+        if (player == 1) //Human
+        {
+            p->value = MIN;
+        }
+        else if (player == 2) //computer
+        {
+            p->value = MAX;
+        }
     }
     else
     {

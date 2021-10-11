@@ -51,7 +51,7 @@ void showNode(Node *p, int level)
     {
         printf("\t");
     }
-    printf("-  %.6g\n", p->value);
+    printf("-  %.6g (%d)\n", p->value, level);
 }
 
 void walkTreeRec(Node *root, int level)
@@ -75,6 +75,7 @@ void freeTree(Node *root)
     }
     freeLevel(root);
 }
+
 Node *createNode(Node *father, int col, int level)
 {
     char player = 1;
@@ -85,9 +86,7 @@ Node *createNode(Node *father, int col, int level)
     int row = fall(p, col);
     placeChip(p, row, col, player);
     score(p, row, col, player);
-    //Si una jugada guanya o perd ja no fem més fills d'aquella branca
-    //Si un tablero esta ple ja no fem mes fills
-    if (level < LEVEL && p->value != MAX && p->value != MIN && !isFull(p))
+    if (level < LEVEL && p->value != MAX && p->value != MIN) //Si una jugada guanya o perd ja no fem més fills d'aquella branca
     {
         calculateNumChilds(p);
         p->child = malloc(p->n_child * sizeof(Node *));
@@ -99,6 +98,7 @@ Node *createNode(Node *father, int col, int level)
     }
     return p;
 }
+
 void createLevel(Node *father, int level)
 {
     for (int i = 0; i < father->n_child; i++)
@@ -112,8 +112,30 @@ void createTree(Node *root, int level)
     createLevel(root, level);
     for (int i = 0; i < root->n_child; i++)
     {
-        createTree(root->child[i], level + 1);
+        if (breakTreeOptimization(root->child[i], level))
+        {
+            change_num_child(root, i + 1);
+            break;
+        }
+        else
+            createTree(root->child[i], level + 1);
     }
+}
+int breakTreeOptimization(Node *p, int level) //checks if there is a MAX when its a pc's move, or if there is a MIN when it's the player's move.
+{
+    if (p->value == MIN && !(level % 2)) // pcmove
+    {
+        return 1;
+    }
+    else if (p->value == MAX && (level % 2))
+    {
+        return 1;
+    }
+    return 0;
+}
+void change_num_child(Node *p, int n_child)
+{
+    p->n_child = n_child;
 }
 void score(Node *p, int row, int col, int player)
 {
@@ -190,8 +212,10 @@ int pcMove(Node *root)
 {
     calculateNumChilds(root);
     root->child = malloc(root->n_child * sizeof(Node *));
+    root->value = 0;
     createTree(root, 1);
     minMax(root, 0);
+    //walkTreeRec(root, 0);
     freeTree(root);
     return chooseColumn(root);
 }

@@ -5,11 +5,15 @@
 char name[20];
 
 int askMove();
-int isOutside(int row, int col);
-int checkHorizontal(Node *p, int player, int row, int col, int last_col, int count);
+int isOutside(int row, int col);                                                     //check if the position is ouside the board
+int checkHorizontal(Node *p, int player, int row, int col, int last_col, int count); //checks horizontal's 4_in_line.
 int checkVertical(Node *p, int player, int row, int col, int last_row, int count);
 int checkAscendentDiagonal(Node *p, int player, int row, int col, int last_row, int count);
 int checkDescendentDiagonal(Node *p, int player, int row, int col, int last_row, int count);
+int start_row(int row, int col); //define in which row we have to start checking if there is a win
+int end_row(int row, int col);   //define in which row we have to stop checking if there is a win
+int start_col(int row, int col);
+int end_col(int row, int col);
 int win(Node *p, int player, int row, int col);
 int isFull(Node *p);
 char finish(Node *p, int player, int row, int col);

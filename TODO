@@ -1,1 +1,2 @@
-All done ✅
+change score() to not random values.
+it can evalueate if there are some chips in line and have free space to keep growing.

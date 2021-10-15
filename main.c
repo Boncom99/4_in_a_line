@@ -155,12 +155,41 @@ int end_col(int row, int col)
     }
     return col + 3;
 }
-int win(Node *p, int player, int row, int col)
+int *diagonalTopLeft(int row, int col)
 {
+    while (isOutside(row - 3, col - 3))
+    {
+        row++;
+        col++;
+    }
+    static int v[2];
+    v[0] = row - 3;
+    v[1] = col - 3;
+    return v;
+}
+
+int *diagonalBottomLeft(int row, int col)
+{
+
+    while (isOutside(row + 3, col - 3))
+    {
+        row--;
+        col++;
+    }
+    static int v[2];
+    v[0] = row + 3;
+    v[1] = col - 3;
+    return v;
+}
+
+int win(Node *p, int player, int row, int col)
+{ //calculate the margins where a 4 in line can be found given the last play (row,col)
     int row0 = start_row(row, col);
     int row1 = end_row(row, col);
     int col0 = start_col(row, col);
     int col1 = end_col(row, col);
+    int *topLeft = diagonalTopLeft(row, col);
+    int *bottomLeft = diagonalBottomLeft(row, col);
 
     //Horizontal
     if (checkHorizontal(p, player, row, col0, col1, 0))
@@ -175,12 +204,12 @@ int win(Node *p, int player, int row, int col)
     }
     //diagonals
 
-    if (checkAscendentDiagonal(p, player, row1, col0, row1, 0))
+    if (checkAscendentDiagonal(p, player, bottomLeft[0], bottomLeft[1], row1, 0))
     {
         return 1;
     }
 
-    if (checkDescendentDiagonal(p, player, row0, col0, row1, 0))
+    if (checkDescendentDiagonal(p, player, topLeft[0], topLeft[1], row1, 0))
     {
         return 1;
     }

@@ -36,7 +36,7 @@ IMPLEMENTATIONS:
 
     - Name of the player:
         
-         Before starting the game, the program asks for the player's name, this way, Him/She will feel more related to the game and more involved.
+         Before starting the game, the program asks for the player's name, this way, He/She will feel more related to the game and more involved.
 
     - Multiple matches:
 

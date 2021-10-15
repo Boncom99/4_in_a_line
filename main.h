@@ -14,6 +14,8 @@ int start_row(int row, int col); //define in which row we have to start checking
 int end_row(int row, int col);   //define in which row we have to stop checking if there is a win
 int start_col(int row, int col);
 int end_col(int row, int col);
+int *diagonalTopLeft(int row, int col);
+int *diagonalBottomLeft(int row, int col);
 int win(Node *p, int player, int row, int col);
 int isFull(Node *p);
 char finish(Node *p, int player, int row, int col);

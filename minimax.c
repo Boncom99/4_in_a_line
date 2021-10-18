@@ -123,11 +123,11 @@ void createTree(Node *root, int level)
 }
 int breakTreeOptimization(Node *p, int level) //checks if there is a MAX when its a pc's move, or if there is a MIN when it's the player's move.
 {
-    if (p->value == MIN && !(level % 2)) // pcmove
+    if (p->value <= MIN && !(level % 2)) // pcmove
     {
         return 1;
     }
-    else if (p->value == MAX && (level % 2))
+    else if (p->value >= MAX && (level % 2))
     {
         return 1;
     }

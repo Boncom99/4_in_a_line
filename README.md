@@ -38,6 +38,11 @@ then, to play run:
         It is an approach of the Alpha-Beta optimizations, but, because my score() function only returns MIN, MAX, or rand(),
 		it would be stupid to compare scores that are randomly generated.
 
+<h3>- MINIMAX optimization 3 (in score()):</h3>
+   
+   the value MIN/MAX are changed, so a win in the 1st play gets higher score than a win in the 7th play.
+   same with the lose.
+
 <h3>- optimized win() function:</h3>
 
   	 because in the "minimax optimization 1" calls the win() function for every Node created, i have optimized the win() function.

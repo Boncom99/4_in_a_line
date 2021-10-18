@@ -85,15 +85,7 @@ Node *createNode(Node *father, int col, int level)
     copyBoard(p, father);
     int row = fall(p, col);
     placeChip(p, row, col, player);
-    score(p, row, col, player);
-    if (player == 2)
-    {
-        p->value = p->value + (LEVEL - level); //perque guanyi abans
-    }
-    else if (player == 1)
-    {
-        p->value = p->value - (LEVEL - level); //perque guanyi abans
-    }
+    score(p, row, col, player, level);
     if (level < LEVEL && p->value < MAX && p->value > MIN) //Si una jugada guanya o perd ja no fem més fills d'aquella branca
     {
         calculateNumChilds(p);
@@ -145,17 +137,19 @@ void change_num_child(Node *p, int n_child)
 {
     p->n_child = n_child;
 }
-void score(Node *p, int row, int col, int player)
+void score(Node *p, int row, int col, int player, int level)
 {
     if (win(p, player, row, col))
     {
         if (player == 1) //Human
         {
-            p->value = MIN;
+            p->value = MIN - (LEVEL - level);
+            ;
         }
         else if (player == 2) //computer
         {
-            p->value = MAX;
+            p->value = MAX + (LEVEL - level);
+            ;
         }
     }
     else

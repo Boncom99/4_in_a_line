@@ -22,7 +22,7 @@ void createLevel(Node *father, int level);
 void createTree(Node *root, int level);
 int breakTreeOptimization(Node *p, int level); //checks if there is a MAX when its a pc's move, or if there is a MIN when it's the player's move.
 void change_num_child(Node *p, int n_child);
-void score(Node *p, int row, int col, int player);
+void score(Node *p, int row, int col, int player, int level);
 void min(Node *p);
 void max(Node *p);
 void minMax(Node *p, int level);

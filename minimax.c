@@ -79,14 +79,22 @@ void freeTree(Node *root)
 Node *createNode(Node *father, int col, int level)
 {
     char player = 1;
-    if (level % 2)
+    if (level % 2) //level impar és pc
         player = 2;
     Node *p = (Node *)malloc(sizeof(Node));
     copyBoard(p, father);
     int row = fall(p, col);
     placeChip(p, row, col, player);
     score(p, row, col, player);
-    if (level < LEVEL && p->value != MAX && p->value != MIN) //Si una jugada guanya o perd ja no fem més fills d'aquella branca
+    if (player == 2)
+    {
+        p->value = p->value + (LEVEL - level); //perque guanyi abans
+    }
+    else if (player == 1)
+    {
+        p->value = p->value - (LEVEL - level); //perque guanyi abans
+    }
+    if (level < LEVEL && p->value < MAX && p->value > MIN) //Si una jugada guanya o perd ja no fem més fills d'aquella branca
     {
         calculateNumChilds(p);
         p->child = malloc(p->n_child * sizeof(Node *));

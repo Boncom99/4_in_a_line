@@ -1,13 +1,14 @@
 {
-    "lldb.displayFormat": "auto",
-    "lldb.dereferencePointers": true,
-    "lldb.showDisassembly": "auto",
-    "files.associations": {
-        "array": "c",
-        "string": "c",
-        "string_view": "c",
-        "vector": "c",
-        "stdlib.h": "c",
-        "typeinfo": "c"
-    }
+	"lldb.displayFormat": "auto",
+	"lldb.dereferencePointers": true,
+	"lldb.showDisassembly": "auto",
+	"files.associations": {
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c",
+		"stdlib.h": "c",
+		"typeinfo": "c"
+	},
+	"C_Cpp.errorSquiggles": "Disabled"
 }

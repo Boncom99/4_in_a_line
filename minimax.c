@@ -218,6 +218,7 @@ int pcMove(Node *root)
     createTree(root, 1);
     minMax(root, 0);
     //walkTreeRec(root, 0);
+    int col = chooseColumn(root);
     freeTree(root);
-    return chooseColumn(root);
+    return col;
 }

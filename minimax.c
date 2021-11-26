@@ -66,6 +66,7 @@ void walkTreeRec(Node *root, int level)
 void freeLevel(Node *father)
 {
     free(father->child);
+    free(father);
 }
 void freeTree(Node *root)
 {
@@ -210,8 +211,10 @@ int chooseColumn(Node *p)
     }
     return 0;
 }
-int pcMove(Node *root)
+int pcMove(Node *input)
 {
+     Node *root = (Node *)malloc(sizeof(Node));
+    copyBoard(root, input);
     calculateNumChilds(root);
     root->child = malloc(root->n_child * sizeof(Node *));
     root->value = 0;

@@ -138,6 +138,11 @@ void change_num_child(Node *p, int n_child)
 {
     p->n_child = n_child;
 }
+int probabilisticScore(Node *p, int row, int col){
+    int points[8] = {1, 2, 3, 4, 4, 3, 2, 1};
+    return (points[col]);
+}
+
 void score(Node *p, int row, int col, int player, int level)
 {
     if (win(p, player, row, col))
@@ -155,7 +160,8 @@ void score(Node *p, int row, int col, int player, int level)
     }
     else
     {
-        p->value = rand() % 100 - 50;
+        int aux = (player % 2);
+        p->value = (-2*aux + 1 )* probabilisticScore(p, row, col); //if player is "1" we multiply by "-1". if player is 2 it stays the same
     }
 }
 void min(Node *p)
@@ -202,14 +208,35 @@ void minMax(Node *p, int level)
 }
 int chooseColumn(Node *p)
 {
+    int points[8] = {1, 2, 3, 4, 4, 3, 2, 1};
+    int bestCols[8]={0,0,0,0,0,0,0,0};
     for (int i = 0; i < p->n_child; i++)
     {
         if (p->value == p->child[i]->value)
         {
-            return p->available_cols[i];
+            bestCols[p->available_cols[i]] = 1; //save a 1 in every columns that gets the maximum puntuation.
         }
     }
-    return 0;
+    int max = -100;
+    int col = -1;
+    //printf("best cols-> ");
+    for (int i = 0; i < 8; i++) //now we get the most centered column with max puntiation
+    {
+        if (bestCols[i] == 1)
+        {
+            //printf("%d, ", i);
+            int row = fall(p, i);
+            if (4 * points[i] + points[row] > max)
+            {
+            //printf("(%d,%d )", row, 4 * points[i] + points[row]);
+                max = 4 * points[i] + points[row];
+                col = i;
+            }
+        }
+    }
+    //printf("\n");
+    
+    return col;
 }
 int pcMove(Node *input)
 {

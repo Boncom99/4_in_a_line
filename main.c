@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-#include "minimax.h"
+#include "minimaxOLD.h"
 #include "print.h"
 
 int askMove()
@@ -286,7 +286,8 @@ int *move(Node *p, int player)
     unsigned int col;
     if (player % 2) //HUMA;
     {
-        col = humanMove(p);
+        //col = humanMove(p);
+       col = pcMoveOLD(p);
     }
     else
     {

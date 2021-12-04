@@ -166,7 +166,7 @@ void score(Node *p, int row, int col, int player, int level)
 }
 void min(Node *p)
 {
-    double aux = MAX;
+    double aux = MAX+LEVEL;
     double current_value;
     for (int i = 0; i < p->n_child; i++)
     {
@@ -180,7 +180,7 @@ void min(Node *p)
 }
 void max(Node *p)
 {
-    double aux = MIN;
+    double aux = MIN-LEVEL;
     double current_value;
     for (int i = 0; i < p->n_child; i++)
     {
@@ -214,28 +214,24 @@ int chooseColumn(Node *p)
     {
         if (p->value == p->child[i]->value)
         {
+
             bestCols[p->available_cols[i]] = 1; //save a 1 in every columns that gets the maximum puntuation.
         }
     }
-    int max = -100;
+    int max = MIN-LEVEL;
     int col = -1;
-    //printf("best cols-> ");
     for (int i = 0; i < 8; i++) //now we get the most centered column with max puntiation
     {
         if (bestCols[i] == 1)
         {
-            //printf("%d, ", i);
             int row = fall(p, i);
-            if (4 * points[i] + points[row] > max)
+            if (points[i] + points[row] >= max)
             {
-            //printf("(%d,%d )", row, 4 * points[i] + points[row]);
-                max = 4 * points[i] + points[row];
+                max =  points[i] + points[row];
                 col = i;
             }
         }
     }
-    //printf("\n");
-    
     return col;
 }
 int pcMove(Node *input)

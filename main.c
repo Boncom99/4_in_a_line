@@ -286,8 +286,8 @@ int *move(Node *p, int player)
     unsigned int col;
     if (player % 2) //HUMA;
     {
-        //col = humanMove(p);
-       col = pcMoveOLD(p);
+        col = humanMove(p);
+       //col = pcMoveOLD(p);
     }
     else
     {
